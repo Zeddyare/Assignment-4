@@ -83,8 +83,45 @@
     };
 
 
+    //Wasn't listed in the requirements so I figured AI usage to implement was okay
+    //Borrowed lines from github copilot prompt: 
+    // "how can I add detection that ensures 3 squares vertically or horizontally do not appear in a row"
+
+    const checkForThreeInARow = () => {
+        //Checks rows
+        for (let i = 0; i < size; i++) {
+            for (let j = 0; j < size - 2; j++) {
+                let state1 = parseInt(document.querySelector(`#square${i}${j}`).classList[1].split('-')[1]);
+                let state2 = parseInt(document.querySelector(`#square${i}${j + 1}`).classList[1].split('-')[1]);
+                let state3 = parseInt(document.querySelector(`#square${i}${j + 2}`).classList[1].split('-')[1]);
+                if (state1 === state2 && state2 === state3 && state1 !== 0 && state2 !== 0 && state3 !== 0) {
+                    return false;
+                }
+            }
+        }
+        //Checks columns
+        for (let j = 0; j < size; j++) {
+            for (let i = 0; i < size - 2; i++) {
+                let state1 = parseInt(document.querySelector(`#square${i}${j}`).classList[1].split('-')[1]);
+                let state2 = parseInt(document.querySelector(`#square${i + 1}${j}`).classList[1].split('-')[1]);
+                let state3 = parseInt(document.querySelector(`#square${i + 2}${j}`).classList[1].split('-')[1]);
+                if (state1 === state2 && state2 === state3 && state1 !== 0 && state2 !== 0 && state3 !== 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+
+        //Is checking the state of all squares horizontally and vertically across board to ensure they do not all share the same state number
+        //classList[1] is the location of the state in the class list
+        //Splitting by '-' splits the state name into "state" and "n" 
+        //It then checks if n is the same for 3 squares in a row and those squares are not in the neutral state 
+    }
+
+
     //Cannot figure this out
     //Hour and a half of trying to get this to work, giving up for now
+    //Solved
     const checkGame = (gameStartValues) => {
         let allComplete = true;
         let allCorrect = true;
@@ -112,6 +149,8 @@
             return "So far so good"
         } else if (allCorrect){
             return "You did it!!"
+        } else if (checkForThreeInARow){
+            return "Three in a row!"
         } else {
             return "Something is wrong"
         }

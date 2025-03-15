@@ -8,6 +8,10 @@
     <script src="./main.js" defer></script>
 </head>
 <body>
+    <div id="header">
+        <h1>3-in-a-Row Game</h1>
+        <p>Click a box to change its value. Make sure you don't have 3 in a row.</p>
+    </div>
     <div class="container">
         <div id="game">
             <div id="table">
@@ -28,6 +32,16 @@
                 <button class="button" id="check">Check</button>
             </div>
             <div id="gameMode">
+                <input type="radio" name="mode" id="6x6" checked>
+                <label for="6x6">6x6 Grid</label>
+                <input type="radio" name="mode" id="8x8">
+                <label for="8x8">8x8 Grid</label>
+                <input type="radio" name="mode" id="10x10">
+                <label for="10x10">10x10 Grid</label>
+                <input type="radio" name="mode" id="12x12">
+                <label for="12x12">12x12 Grid</label>
+                <input type="radio" name="mode" id="14x14">
+                <label for="14x14">14x14 Grid</label>
 
             </div>
         </div>
