@@ -38,6 +38,7 @@
     fourteen ="https://prog2700.onrender.com/threeinarow/14x14";
 
     const createGame = (gameData) => {
+        
         let table = document.querySelector("#puzzle");
         fetch(gameData)
             .then(response => response.json())
@@ -50,7 +51,10 @@
                     table.appendChild(row);
                     for (let j = 0; j < size; j++){
                         //Create Squares
-                        let square = document.createElement("td");
+                        let column = document.createElement("td");
+                        row.appendChild(column);
+                        let square = document.createElement("input");
+                        square.type = "button";
                         square.classList.add("square");
                         if (i === 0){ 
                             square.id = `square${j}`;
@@ -58,16 +62,29 @@
                             square.id = `square${i*6 + j}`;
                         }
                         square.classList.add(`state-${Number(data.rows[i][j].currentState)}`);
-
-                        row.appendChild(square);
+                        if (data.rows[i][j].canToggle === true){
+                            square.addEventListener('click', () =>{
+                                if (square.classList.contains("state-0")){
+                                    square.classList.remove("state-0");
+                                    square.classList.add("state-1");
+                                } else if (square.classList.contains("state-1")){
+                                    square.classList.remove("state-1");
+                                    square.classList.add("state-2");
+                                } else {
+                                    square.classList.remove("state-2");
+                                    square.classList.add("state-0");
+                                }
+                            });
+                        }
+                        column.appendChild(square);
                        
                     }
                 }
             });  
     };
 
-    document.onload = createGame(sixBySixSample);
-    document.querySelector("#start").addEventListener('click', createGame(sixBySixSample));
+    //document.onload = createGame(sixBySixSample);
+    document.querySelector("#start").addEventListener('click', createGame(six));
     document.querySelector("#check").addEventListener('click', checkGame());
     document.querySelector("#reset").addEventListener('click', resetGame());
 
