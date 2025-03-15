@@ -59,11 +59,7 @@
                         let square = document.createElement("input");
                         square.type = "button";
                         square.classList.add("square");
-                        if (i === 0){ 
-                            square.id = `square${j}`;
-                        } else {
-                            square.id = `square${i * size + j}`;
-                        }
+                        square.id = `square${i}${j}`;
                         square.classList.add(`state-${Number(data.rows[i][j].currentState)}`);
                         if (data.rows[i][j].canToggle === true){
                             square.addEventListener('click', () =>{
@@ -86,42 +82,43 @@
     };
 
 
+    //Cannot figure this out
+    //Hour and a half of trying to get this to work, giving up for now
     const checkGame = (gameStartValues) => {
+        let allComplete = true;
         let allCorrect = true;
-        let allFilled = true;
-        let size = gameStartValues.rows.length;
-        for (let i = 0; i < size; i++){
-            for (let j = 0; j < size; j++){
-                let square = document.querySelector(`#square${i * size + j}`);
+        
+        for (let i = 0; i < gameStartValues.rows.length; i++){
+            for (let j = 0; j < gameStartValues.rows.length; j++){
+                let square = document.querySelector(`#square${i}${j}`)
+                console.log(square.classList);
                 if (square.classList.contains("state-0")){
-                    allFilled = false;
+                    allComplete = false;
                 };
-
-                if (square.classList.contains("state-1") && gameStartValues.rows[i][j].currentState !== 1){
+                if (square.classList.contains("state-1") && gameStartValues.rows[i][j].correctState !== 1){
                     allCorrect = false;
-                } else if (square.classList.contains("state-2") && gameStartValues.rows[i][j].currentState !== 2){
+                } else if (square.classList.contains("state-2") && gameStartValues.rows[i][j].correctState !== 2){
                     allCorrect = false;
+                } else if (square.classList.contains("state-0")){
+                    continue;
                 }
-
             }
         }
-        if (!allCorrect && !allFilled){
-            alert("Something is wrong");
-            return;
-        } else if (allCorrect && allFilled){
-            alert("You did it!!");
-            return;
-        } else if (!allFilled && allCorrect){
-            alert("So far so good");
-            return;
+        if (!allComplete && allCorrect){
+            return "So far so good"
+        } else if (allCorrect){
+            return "You did it!!"
+        } else {
+            return "Something is wrong"
         }
-    };
+
+    }
 
     const resetGame = (gameStartValues) => {
         let size = gameStartValues.rows.length;
         for (let i = 0; i < size; i++){
             for (let j = 0; j < size; j++){
-                let square = document.querySelector(`#square${i * size + j}`);
+                let square = document.querySelector(`#square${i}${j}`);
                 if (gameStartValues.rows[i][j].canToggle === true){
                     square.classList.remove("state-1");
                     square.classList.remove("state-2");
@@ -142,7 +139,7 @@
     document.onload = createGame(sixBySixSample);
 
     document.querySelector("#check").addEventListener('click', () => {
-        checkGame(gameStartValues);
+        alert (checkGame(gameStartValues));
     });
     document.querySelector("#reset").addEventListener('click', () => {
         resetGame(gameStartValues);
@@ -150,6 +147,8 @@
     document.querySelector("#start").addEventListener('click', () => {
         newGame(sixBySixSample);
     });
+
+
 
 
 
