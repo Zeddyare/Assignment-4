@@ -40,6 +40,9 @@ table {
 .state-2 {
     background-color: #f7f7f7;
 }
+.incorrect {
+    background-color: #f67e7e;
+}
 .button {
     background-color: #4CAF50; 
     color: white;

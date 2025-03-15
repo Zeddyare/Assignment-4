@@ -72,7 +72,8 @@
                                 } else {
                                     square.classList.remove("state-2");
                                     square.classList.add("state-0");
-                                }
+                                } 
+                                
                             });
                         }
                         column.appendChild(square);
@@ -104,6 +105,9 @@
                 }
             }
         }
+        if (document.querySelector("#toggleIncorrect").checked){
+            toggleIncorrect(gameStartValues);
+        }
         if (!allComplete && allCorrect){
             return "So far so good"
         } else if (allCorrect){
@@ -134,6 +138,26 @@
 
     const toggleIncorrect = (gameData) => {
         let size = gameData.rows.length;
+        for (let i = 0; i < size; i++){
+            for (let j = 0; j < size; j++){
+                let square = document.querySelector(`#square${i}${j}`);
+                if (square.classList.contains("state-1") && gameData.rows[i][j].correctState !== 1){
+                    square.classList.remove("state-1");
+                    square.classList.add("incorrect");
+                    square.addEventListener('click', () =>{
+                        square.classList.remove("incorrect");
+                        square.classList.add("state-2");
+                    });
+                } else if (square.classList.contains("state-2") && gameData.rows[i][j].correctState !== 2){
+                    square.classList.remove("state-2");
+                    square.classList.add("incorrect");
+                    square.addEventListener('click', () =>{
+                        square.classList.remove("incorrect");
+                        square.classList.add("state-1");
+                    });
+                }
+            }
+        }
     }
 
     document.onload = createGame(sixBySixSample);
@@ -147,6 +171,7 @@
     document.querySelector("#start").addEventListener('click', () => {
         newGame(sixBySixSample);
     });
+
 
 
 
