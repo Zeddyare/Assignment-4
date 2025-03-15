@@ -31,18 +31,15 @@
                 <button class="button" id="reset">Reset</button>
                 <button class="button" id="check">Check</button>
             </div>
-            <div id="gameMode">
-                <input type="radio" name="mode" id="6x6" checked>
-                <label for="6x6">6x6 Grid</label>
-                <input type="radio" name="mode" id="8x8">
-                <label for="8x8">8x8 Grid</label>
-                <input type="radio" name="mode" id="10x10">
-                <label for="10x10">10x10 Grid</label>
-                <input type="radio" name="mode" id="12x12">
-                <label for="12x12">12x12 Grid</label>
-                <input type="radio" name="mode" id="14x14">
-                <label for="14x14">14x14 Grid</label>
-
+            <div id="options">
+                <form id="gameMode">
+                    <label><input type="radio" name="gameMode" value="6" id="mode6"> 6x6 Grid</label>
+                    <label><input type="radio" name="gameMode" value="8" id="mode8"> 8x8 Grid</label>
+                    <label><input type="radio" name="gameMode" value="10" id="mode10"> 10x10 Grid</label>
+                    <label><input type="radio" name="gameMode" value="12" id="mode12"> 12x12 Grid</label>
+                    <label><input type="radio" name="gameMode" value="14" id="mode14"> 14x14 Grid</label>
+                    <label><input type="radio" name="gameMode" value="random" id="modeRandom"> Random</label>
+                </form>
             </div>
         </div>
     </div>

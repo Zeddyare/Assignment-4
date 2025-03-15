@@ -149,7 +149,7 @@
             return "So far so good"
         } else if (allCorrect){
             return "You did it!!"
-        } else if (checkForThreeInARow){
+        } else if (gameStartValues.length == 6 && checkForThreeInARow){
             return "Three in a row!"
         } else {
             return "Something is wrong"
@@ -171,8 +171,24 @@
         }
     };
 
-    const newGame = (gameData) => {
-        createGame(gameData);
+    const newGame = () => {
+        let gameMode = document.querySelector('input[name="gameMode"]:checked').value;
+        let gameUrl;
+        switch (gameMode){
+            case "6": gameUrl = six;
+            break;
+            case "8": gameUrl = eight;
+            break;
+            case "10": gameUrl = ten;
+            break;
+            case "12": gameUrl = twelve;
+            break;
+            case "14": gameUrl = fourteen;
+            break;
+            default: gameUrl = sixToFourteen;
+        }
+
+        createGame(gameUrl);
     };
 
     const toggleIncorrect = (gameData) => {
@@ -199,7 +215,7 @@
         }
     }
 
-    document.onload = createGame(sixBySixSample);
+    //document.onload = createGame(sixBySixSample);
 
     document.querySelector("#check").addEventListener('click', () => {
         alert (checkGame(gameStartValues));
@@ -208,9 +224,10 @@
         resetGame(gameStartValues);
     });
     document.querySelector("#start").addEventListener('click', () => {
-        newGame(sixBySixSample);
+        newGame();
     });
 
+    
 
 
 

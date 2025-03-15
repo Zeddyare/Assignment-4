@@ -72,8 +72,14 @@ table {
     background-color: #45a049;
     color: white;
 }
-#gameMode {
+#options {
     display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#gameMode {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     justify-content: center;
     align-items: center;
     margin-top: 10px;
