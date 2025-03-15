@@ -37,12 +37,15 @@
     twelve ="https://prog2700.onrender.com/threeinarow/12x12";
     fourteen ="https://prog2700.onrender.com/threeinarow/14x14";
 
+    let gameStartValues = null;
+
     const createGame = (gameData) => {
         
         let table = document.querySelector("#puzzle");
         fetch(gameData)
             .then(response => response.json())
             .then(data => {
+                gameStartValues = data;
                 let size = data.rows.length;
                 table.innerHTML = ""; //To clear table before creating new one
                 for (let i = 0; i < size; i++){
@@ -59,7 +62,7 @@
                         if (i === 0){ 
                             square.id = `square${j}`;
                         } else {
-                            square.id = `square${i*6 + j}`;
+                            square.id = `square${i * size + j}`;
                         }
                         square.classList.add(`state-${Number(data.rows[i][j].currentState)}`);
                         if (data.rows[i][j].canToggle === true){
@@ -77,16 +80,76 @@
                             });
                         }
                         column.appendChild(square);
-                       
                     }
                 }
             });  
     };
 
-    //document.onload = createGame(sixBySixSample);
-    document.querySelector("#start").addEventListener('click', createGame(six));
-    document.querySelector("#check").addEventListener('click', checkGame());
-    document.querySelector("#reset").addEventListener('click', resetGame());
+
+    const checkGame = (gameStartValues) => {
+        let allCorrect = true;
+        let allFilled = true;
+        let size = gameStartValues.rows.length;
+        for (let i = 0; i < size; i++){
+            for (let j = 0; j < size; j++){
+                let square = document.querySelector(`#square${i * size + j}`);
+                if (square.classList.contains("state-0")){
+                    allFilled = false;
+                };
+
+                if (square.classList.contains("state-1") && gameStartValues.rows[i][j].currentState !== 1){
+                    allCorrect = false;
+                } else if (square.classList.contains("state-2") && gameStartValues.rows[i][j].currentState !== 2){
+                    allCorrect = false;
+                }
+
+            }
+        }
+        if (!allCorrect && !allFilled){
+            alert("Something is wrong");
+            return;
+        } else if (allCorrect && allFilled){
+            alert("You did it!!");
+            return;
+        } else if (!allFilled && allCorrect){
+            alert("So far so good");
+            return;
+        }
+    };
+
+    const resetGame = (gameStartValues) => {
+        let size = gameStartValues.rows.length;
+        for (let i = 0; i < size; i++){
+            for (let j = 0; j < size; j++){
+                let square = document.querySelector(`#square${i * size + j}`);
+                if (gameStartValues.rows[i][j].canToggle === true){
+                    square.classList.remove("state-1");
+                    square.classList.remove("state-2");
+                    square.classList.add("state-0");
+                }
+            }
+        }
+    };
+
+    const newGame = (gameData) => {
+        createGame(gameData);
+    };
+
+    const toggleIncorrect = (gameData) => {
+        let size = gameData.rows.length;
+    }
+
+    document.onload = createGame(sixBySixSample);
+
+    document.querySelector("#check").addEventListener('click', () => {
+        checkGame(gameStartValues);
+    });
+    document.querySelector("#reset").addEventListener('click', () => {
+        resetGame(gameStartValues);
+    });
+    document.querySelector("#start").addEventListener('click', () => {
+        newGame(sixBySixSample);
+    });
 
 
 
