@@ -20,14 +20,17 @@
 // 3. Changing colours/states on mouse clicks, squares in state 1 or 2 at start of game cannot be changed
 // 4. Check button must check for errors and update the DOM to show the result
 // 5. Checkbox to mark squares that have been altered incorrectly (toggleable display)
-// 6. Add a unique feature that innovates upon the basic requirements - a timer that starts when first square is clicked and stops when solved
+// 6. Add a unique feature that innovates upon the basic requirements - board size selector
 
 //IIFE
 (() => {
 
-    //Test arrays to work with
+    //Test arrays and API data to work with
+    // Test board
     sixBySixSample = "https://prog2700.onrender.com/threeinarow/sample";
+    // Random board size
     sixToFourteen ="https://prog2700.onrender.com/threeinarow/random";
+    // Determined board sizes
     six ="https://prog2700.onrender.com/threeinarow/6x6";
     eight ="https://prog2700.onrender.com/threeinarow/8x8";
     ten ="https://prog2700.onrender.com/threeinarow/10x10";
@@ -35,21 +38,40 @@
     fourteen ="https://prog2700.onrender.com/threeinarow/14x14";
 
     const createGame = (gameData) => {
-        let game = document.querySelector("#game");
-        let table = document.querySelector("#table");
+        let table = document.querySelector("#puzzle");
         fetch(gameData)
             .then(response => response.json())
             .then(data => {
-                
-            });
+                let size = data.rows.length;
+                table.innerHTML = ""; //To clear table before creating new one
+                for (let i = 0; i < size; i++){
+                    //Create rows
+                    let row = document.createElement("tr");
+                    table.appendChild(row);
+                    for (let j = 0; j < size; j++){
+                        //Create Squares
+                        let square = document.createElement("td");
+                        square.classList.add("square");
+                        if (i === 0){ 
+                            square.id = `square${j}`;
+                        } else {
+                            square.id = `square${i*6 + j}`;
+                        }
+                        square.classList.add(`state-${Number(data.rows[i][j].currentState)}`);
 
-        
+                        row.appendChild(square);
+                       
+                    }
+                }
+            });  
     };
 
-
+    document.onload = createGame(sixBySixSample);
     document.querySelector("#start").addEventListener('click', createGame(sixBySixSample));
     document.querySelector("#check").addEventListener('click', checkGame());
     document.querySelector("#reset").addEventListener('click', resetGame());
+
+
 
 
 
